@@ -5,9 +5,11 @@ const {Server} = require("socket.io");
 const {spawn} = require('child_process');
 const fs = require("fs");
 const server = https.createServer({
-    key: fs.readFileSync('abels-key.pem'), cert: fs.readFileSync('abels-cert.pem')
+    key: fs.readFileSync('abels-key.pem'),
+    cert: fs.readFileSync('abels-cert.pem')
 }, app);
 const io = new Server(server);
+const NodeMediaServer = require('node-media-server');
 
 app.use(express.static('public'));
 
@@ -115,9 +117,8 @@ io.on("connection", function (socket) {
 
 });
 
-const NodeMediaServer = require('node-media-server');
-
 const nms = new NodeMediaServer({
+    logType: 3,
     rtmp: {
         port: 1935,
         chunk_size: 60000,
@@ -128,6 +129,11 @@ const nms = new NodeMediaServer({
     http: {
         port: 8000,
         allow_origin: '*'
+    },
+    https: {
+        port: 8443,
+        key:'./abels-key.pem',
+        cert:'./abels-cert.pem',
     }
 });
 
