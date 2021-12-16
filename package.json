@@ -1,0 +1,10 @@
+{
+  "name": "rtc2rtmp",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "socket.io": "^4.4.0"
+  }
+}
