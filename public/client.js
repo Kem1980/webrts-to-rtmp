@@ -1,4 +1,4 @@
-const rtmpUrl = "rtmp://" + location.host.split(":")[0] + ":1935/live";
+const rtmpUrl = "rtmp://" + location.host.split(":")[0] + ":1935/live/test4";
 const localVideo = document.getElementById("localVideo");
 
 let mediaRecorder,

@@ -5,6 +5,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
+    "node-media-server": "^2.3.8",
     "socket.io": "^4.4.0"
   }
 }
