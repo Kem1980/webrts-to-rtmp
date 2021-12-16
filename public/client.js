@@ -19,7 +19,7 @@ socket.on("connect", ()=>{
             socket.emit("start", rtmpUrl);
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.ondataavailable = (e) => socket.emit("stream_binary_data", e.data);
-            mediaRecorder.start(0);
+            mediaRecorder.start(10000);
         })
         .catch(function (err) {
             console.error("The following error occurred:", err);
