@@ -4,6 +4,7 @@ const rtmpUrl = `rtmp://${host}:1935/live/stream_${id}`;
 const startStreamBtn = document.getElementById("startStreamBtn");
 const stopStreamBtn = document.getElementById("stopStreamBtn");
 const localVideo = document.getElementById("localVideo");
+const rtmpLink = document.getElementById("rtmpLink");
 
 stopStreamBtn.disabled = true;
 
@@ -45,6 +46,7 @@ function startStream(){
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.ondataavailable = (e) => socket.emit("stream_binary_data", e.data);
             mediaRecorder.start(10000);
+            rtmpLink.innerText = rtmpUrl;
         })
         .catch(function (err) {
             console.error("The following error occurred:", err);
@@ -58,4 +60,5 @@ function stopStream(){
     localVideo.srcObject = null;
     startStreamBtn.disabled = false;
     stopStreamBtn.disabled = true;
+    rtmpLink.innerText = '';
 }
