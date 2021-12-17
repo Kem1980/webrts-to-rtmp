@@ -115,6 +115,10 @@ io.on("connection", function (socket) {
 
 const nms = new NodeMediaServer({
     logType: 3,
+    auth: {
+        user: 'hsa@media@server',
+        password: 'XZY9hZEEZBi9PwKyOv1t'
+    },
     rtmp: {
         port: 1935,
         chunk_size: 60000,
@@ -123,11 +127,11 @@ const nms = new NodeMediaServer({
         ping_timeout: 60
     },
     http: {
-        port: 8000,
+        port: 8033,
         allow_origin: '*'
     },
     https: {
-        port: 8443,
+        port: 8533,
         key:'./abels-key.pem',
         cert:'./abels-cert.pem',
     }
