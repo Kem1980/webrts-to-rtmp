@@ -46,24 +46,19 @@ io.on("connection", function (socket) {
         }
 
         rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
+        console.log(rtmpUrl);
         //socket.emit("message", `rtmp destination set to: ${rtmpUrl}`);
 
-        const ffmpegOptions = [
+        ffmpeg_process = spawn("ffmpeg", [
             "-i", "-",
-            "-c:v", "libx264", "-preset", "fast", "-tune", "zerolatency",
-            "-filter:v", "fps=25", "-x264-params", "keyint=50:scenecut=0",
+            "-c:v", "libx264", "-preset", "veryfast", "-filter:v", "fps=25", "-x264-params", "keyint=50:scenecut=0",
             "-c:a", "aac", "-ar", "44100", "-b:a", "64k",
             "-y",
             "-use_wallclock_as_timestamps", "1",
             "-async", "1",
             "-bufsize", "1000", "-f", "flv",
             rtmpUrl,
-        ];
-
-        console.log(rtmpUrl);
-
-        ffmpeg_process = spawn("ffmpeg", ffmpegOptions);
-
+        ]);
 
         ffmpeg_process.on("error", function (e) {
             console.error("ffmpeg process error:", e);
@@ -141,4 +136,4 @@ const nms = new NodeMediaServer({
     }
 });
 
-nms.run();
+//nms.run();

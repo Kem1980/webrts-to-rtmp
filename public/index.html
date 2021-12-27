@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediaRecorder to RTMP Demo</title>
+    <script src="https://cdn.playernow.ru/playernow.min.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.playernow.ru/styles.css" rel="stylesheet">
 </head>
 <body>
 <h1>MediaRecorder to RTMP Demo</h1>
@@ -12,12 +14,19 @@
 <div>
     <button id="startStreamBtn">Start stream</button>
     <button id="stopStreamBtn">Stop stream</button>
+    <button id="startPlayBtn">Play stream</button>
 </div>
 <hr/>
-<div>RTMP link: <span id="rtmpLink"></span></div>
-<div>
-    <video id="localVideo" playsinline autoplay muted style="background:#d2d2d2;width: 50%;height: auto;margin: auto;display: block;"></video>
-    <!-- <video id="remoteVideo" playsinline autoplay></video>-->
+<div style="display: flex;">
+    <div style="width: 50%;">
+        <h3>Webcam preview</h3>
+        <video id="localVideo" playsinline autoplay muted style="background:#d2d2d2;width: 100%;height: auto;display: block;"></video>
+    </div>
+    <div style="width: 1rem;"></div>
+    <div style="width: 50%;">
+        <h3>Stream player</h3>
+        <div id="playerNow" style="background:#d2d2d2;width: 100%;height: auto;display: block;"></div>
+    </div>
 </div>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="/socket.io/socket.io.js"></script>
