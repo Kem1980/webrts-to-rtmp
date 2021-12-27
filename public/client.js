@@ -45,7 +45,7 @@ function startStream(){
             socket.emit("start", rtmpUrl);
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.ondataavailable = (e) => socket.emit("stream_binary_data", e.data);
-            mediaRecorder.start(10000);
+            mediaRecorder.start(250);
             rtmpLink.innerText = rtmpUrl;
         })
         .catch(function (err) {
