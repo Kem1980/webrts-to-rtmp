@@ -9,7 +9,7 @@ const server = https.createServer({
     cert: fs.readFileSync('abels-cert.pem')
 }, app);
 const io = new Server(server);
-const NodeMediaServer = require('node-media-server');
+// const NodeMediaServer = require('node-media-server');
 
 app.use(express.static('public'));
 
@@ -49,7 +49,7 @@ io.on("connection", function (socket) {
         console.log(rtmpUrl);
         //socket.emit("message", `rtmp destination set to: ${rtmpUrl}`);
 
-        ffmpeg_process = spawn("ffmpeg", [
+        /*ffmpeg_process = spawn("ffmpeg", [
             "-i", "-",
             "-c:v", "libx264", "-preset", "veryfast", "-filter:v", "fps=25", "-x264-params", "keyint=50:scenecut=0",
             "-c:a", "aac", "-ar", "44100", "-b:a", "64k",
@@ -57,6 +57,16 @@ io.on("connection", function (socket) {
             "-use_wallclock_as_timestamps", "1",
             "-async", "1",
             "-bufsize", "1000", "-f", "flv",
+            rtmpUrl,
+        ]);*/
+
+        ffmpeg_process = spawn("ffmpeg", [
+            "-re",
+            "-i", "-",
+            "-c:v", "libx264",
+            "-x264-params", "keyint=50:scenecut=0",
+            "-c:a", "aac",
+            "-r 25", "-f", "flv",
             rtmpUrl,
         ]);
 
@@ -112,7 +122,7 @@ io.on("connection", function (socket) {
 
 });
 
-const nms = new NodeMediaServer({
+/*const nms = new NodeMediaServer({
     logType: 3,
     auth: {
         user: 'hsa@media@server',
@@ -134,6 +144,6 @@ const nms = new NodeMediaServer({
         key:'./abels-key.pem',
         cert:'./abels-cert.pem',
     }
-});
+});*/
 
 //nms.run();
