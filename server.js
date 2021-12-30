@@ -61,12 +61,12 @@ io.on("connection", function (socket) {
         ]);*/
 
         ffmpeg_process = spawn("ffmpeg", [
-            "-re",
-            "-i", "-",
-            "-c:v", "libx264",
-            "-x264-params", "keyint=50:scenecut=0",
-            "-c:a", "aac",
-            "-r 25", "-f", "flv",
+            '-re',
+            '-i','-',
+            '-c:v','libx264','-x264-params','keyint=50:scenecut=0',
+            '-c:a','aac',
+            '-r','25',
+            '-f','flv',
             rtmpUrl,
         ]);
 
@@ -77,6 +77,7 @@ io.on("connection", function (socket) {
         });
 
         feedStream = function (data) {
+            console.log('DATA', data);
             ffmpeg_process.stdin.write(data);
             ffmpeg_process.stdin.on('error', function (e) {
                 console.error("ffmpeg stdin error:", e);
