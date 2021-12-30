@@ -48,6 +48,7 @@ io.on("connection", function (socket) {
         rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
         console.log(rtmpUrl);
 
+        // ffmpeg -re -i ~/webrts-to-rtmp/video2.mp4 -c:v libx264 -x264-params keyint=50:scenecut=0 -c:a aac -r 25 -f flv "rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN"
         ffmpeg_process = spawn("ffmpeg", [
             '-re',
             '-i','-',
