@@ -1,17 +1,11 @@
-const startStreamBtn = document.getElementById("startStreamBtn");
-const stopStreamBtn = document.getElementById("stopStreamBtn");
 const startPlayBtn = document.getElementById("startPlayBtn");
 const localVideo = document.getElementById("localVideo");
-const rtmpLink = document.getElementById("rtmpLink");
 
-stopStreamBtn.disabled = true;
 startPlayBtn.disabled = true;
 
 let mediaRecorder,
     socket;
 
-startStreamBtn.addEventListener('click', startStream);
-stopStreamBtn.addEventListener('click', stopStream);
 startPlayBtn.addEventListener('click', initPlayNow);
 
 socket = io({secure: true});
@@ -34,34 +28,21 @@ socket.on("disconnect", function () {
     mediaRecorder.stop();
 });
 
-function startStream(){
-    socket.connect();
+socket.connect();
 
-    navigator.mediaDevices
-        .getUserMedia({audio: true, video: true})
-        .then((stream) => {
-            localVideo.srcObject = stream;
-            socket.emit("start");
-            mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.ondataavailable = (e) => socket.emit("stream_binary_data", e.data);
-            mediaRecorder.start(250);
-        })
-        .catch(function (err) {
-            console.error("The following error occurred:", err);
-        });
-    startStreamBtn.disabled = true;
-    stopStreamBtn.disabled = false;
-    startPlayBtn.disabled = false;
-}
-
-function stopStream(){
-    socket.disconnect();
-    localVideo.srcObject = null;
-    startStreamBtn.disabled = false;
-    stopStreamBtn.disabled = true;
-    startPlayBtn.disabled = true;
-    rtmpLink.innerText = '';
-}
+navigator.mediaDevices
+    .getUserMedia({audio: true, video: true})
+    .then((stream) => {
+        localVideo.srcObject = stream;
+        socket.emit("start");
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => socket.emit("stream_binary_data", e.data);
+        mediaRecorder.start(250);
+    })
+    .catch(function (err) {
+        console.error("The following error occurred:", err);
+    });
+startPlayBtn.disabled = false;
 
 function initPlayNow(){
     new playernow('playerNow', {
