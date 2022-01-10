@@ -1,6 +1,3 @@
-const id = Date.now();
-const host = location.host.split(":")[0];
-const rtmpUrl = `rtmp://${host}:1935/live/stream_${id}`;
 const startStreamBtn = document.getElementById("startStreamBtn");
 const stopStreamBtn = document.getElementById("stopStreamBtn");
 const startPlayBtn = document.getElementById("startPlayBtn");
@@ -44,11 +41,10 @@ function startStream(){
         .getUserMedia({audio: true, video: true})
         .then((stream) => {
             localVideo.srcObject = stream;
-            socket.emit("start", rtmpUrl);
+            socket.emit("start");
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.ondataavailable = (e) => socket.emit("stream_binary_data", e.data);
             mediaRecorder.start(250);
-            //rtmpLink.innerText = rtmpUrl;
         })
         .catch(function (err) {
             console.error("The following error occurred:", err);

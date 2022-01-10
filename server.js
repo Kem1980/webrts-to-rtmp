@@ -9,7 +9,6 @@ const server = https.createServer({
     cert: fs.readFileSync('abels-cert.pem')
 }, app);
 const io = new Server(server);
-// const NodeMediaServer = require('node-media-server');
 
 app.use(express.static('public'));
 
@@ -33,19 +32,15 @@ io.on("connection", function (socket) {
 
     let ffmpeg_process, feedStream = false;
 
-    socket.on("start", function (rtmpUrl) {
+    socket.on("start", function () {
 
         if (ffmpeg_process || feedStream) {
             socket.emit("message", "stream already started.");
             return;
         }
 
-        if (!rtmpUrl) {
-            socket.emit("error", "no RTMP destination given.");
-            return;
-        }
-
-        rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
+        //const rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
+        const rtmpUrl = `rtmp://168.119.241.184:1935/live/stream_${Date.now()}`;
         console.log(rtmpUrl);
 
         // ffmpeg -re -i ~/webrts-to-rtmp/video2.mp4 -c:v libx264 -x264-params keyint=50:scenecut=0 -c:a aac -r 25 -f flv "rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN"
@@ -112,7 +107,11 @@ io.on("connection", function (socket) {
 
 });
 
-/*const nms = new NodeMediaServer({
+
+
+// RTMP Server
+const NodeMediaServer = require('node-media-server');
+const nms = new NodeMediaServer({
     logType: 3,
     auth: {
         user: 'hsa@media@server',
@@ -134,6 +133,5 @@ io.on("connection", function (socket) {
         key:'./abels-key.pem',
         cert:'./abels-cert.pem',
     }
-});*/
-
-//nms.run();
+});
+nms.run();
