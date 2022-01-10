@@ -47,7 +47,7 @@ io.on("connection", function (socket) {
         ffmpeg_process = spawn("ffmpeg", [
             '-re',
             '-i','-',
-            '-c:v','libx264','-x264-params','keyint=50:scenecut=0',
+            '-c:v','libx264',
             '-c:a','aac',
             '-r','25',
             '-f','flv',
