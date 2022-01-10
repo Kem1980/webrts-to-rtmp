@@ -61,7 +61,7 @@ io.on("connection", function (socket) {
         });
 
         feedStream = function (data) {
-            console.log('DATA', data);
+            //console.log('DATA', data);
             ffmpeg_process.stdin.write(data);
             ffmpeg_process.stdin.on('error', function (e) {
                 console.error("ffmpeg stdin error:", e);
