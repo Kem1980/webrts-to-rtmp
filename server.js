@@ -60,6 +60,7 @@ io.on("connection", function (socket) {
             '-x264opts', 'keyint=50', '-crf', '25', '-pix_fmt', 'yuv420p',
             '-profile:v', 'baseline', '-level', '3',
             '-c:a', 'aac', '-b:a','44k', '-ar', 44100,
+            '-vf', 'scale=640:480',
             '-f', 'flv',
             rtmpUrl,
         ]);
