@@ -131,6 +131,7 @@ io.on("connection", function (socket) {
 
 
 // RTMP Server
+/*
 const NodeMediaServer = require('node-media-server');
 const nms = new NodeMediaServer({
     logType: 3,
@@ -151,3 +152,4 @@ const nms = new NodeMediaServer({
     }
 });
 nms.run();
+*/
