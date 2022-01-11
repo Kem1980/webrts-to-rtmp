@@ -47,8 +47,9 @@ io.on("connection", function (socket) {
         ffmpeg_process = spawn("ffmpeg", [
             '-re',
             '-i','-',
-            '-c:v','libx264',
-            '-c:a','aac',
+            '-c:v','libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
+            '-c:a', 'aac', '-ar', '44100', '-b:a', '44k',
+            '-bufsize', '5000',
             '-r','25',
             '-f','flv',
             rtmpUrl,
