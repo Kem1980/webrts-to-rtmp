@@ -39,8 +39,8 @@ io.on("connection", function (socket) {
             return;
         }
 
-        //const rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
-        const rtmpUrl = `rtmp://168.119.241.184:1935/live/stream_${Date.now()}`;
+        const rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
+        // const rtmpUrl = `rtmp://168.119.241.184:1935/live/stream_${Date.now()}`;
         // const rtmpUrl = `rtmp://localhost:1935/live/stream_${Date.now()}`;
         console.log(rtmpUrl);
 
