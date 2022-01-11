@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  webrtctortmp:
+    container_name: webrtc-to-rtmp
+    build: .
+    ports:
+      - 443:443
+      - 1935:1935
+      - 8033:8033
+    volumes:
+      - .:/src/
