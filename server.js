@@ -46,6 +46,7 @@ io.on("connection", function (socket) {
 
         // ffmpeg -re -i ~/webrts-to-rtmp/video2.mp4 -c:v libx264 -x264-params keyint=50:scenecut=0 -c:a aac -r 25 -f flv "rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN"
         ffmpeg_process = spawn("ffmpeg", [
+            //'-f', 'lavfi',
             '-re',
             '-i','-',
             '-c:v', 'libx264',
@@ -63,6 +64,10 @@ io.on("connection", function (socket) {
             rtmpUrl,
         ]);
 
+        ffmpeg_process.stderr.on('data', data => {
+            console.log(`stderr: ${data}`, data);
+        });
+
         ffmpeg_process.on("error", function (e) {
             console.error("ffmpeg process error:", e);
             socket.emit("error", `ffmpeg process error! ${e}`);
@@ -71,6 +76,7 @@ io.on("connection", function (socket) {
 
         feedStream = function (data) {
             //console.log('DATA', data);
+            if (!ffmpeg_process.stdin.writable) return;
             ffmpeg_process.stdin.write(data);
             ffmpeg_process.stdin.on('error', function (e) {
                 console.error("ffmpeg stdin error:", e);
@@ -82,6 +88,12 @@ io.on("connection", function (socket) {
         ffmpeg_process.on("exit", function (e) {
             console.log(`child process exit: ${e}`);
             socket.emit("message", `ffmpeg exit! ${e}`);
+            socket.disconnect();
+        });
+
+        ffmpeg_process.on('close', (code, signal) => {
+            console.log(`ffmpeg close, code: ${code}, signal: ${signal}`);
+            socket.emit("message", `ffmpeg close! code: ${code}, signal: ${signal}`);
             socket.disconnect();
         });
 
