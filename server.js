@@ -40,21 +40,26 @@ io.on("connection", function (socket) {
         }
 
         //const rtmpUrl = 'rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN';
-        //const rtmpUrl = `rtmp://168.119.241.184:1935/live/stream_${Date.now()}`;
-        const rtmpUrl = `rtmp://localhost:1935/live/stream_${Date.now()}`;
+        const rtmpUrl = `rtmp://168.119.241.184:1935/live/stream_${Date.now()}`;
+        // const rtmpUrl = `rtmp://localhost:1935/live/stream_${Date.now()}`;
         console.log(rtmpUrl);
 
         // ffmpeg -re -i ~/webrts-to-rtmp/video2.mp4 -c:v libx264 -x264-params keyint=50:scenecut=0 -c:a aac -r 25 -f flv "rtmp://rtmp.cdnnow.ru:1940/live/user58272_1?user=user58272.stream@cdnnow.ru&pass=WDomVMUmjjDN"
         ffmpeg_process = spawn("ffmpeg", [
             '-re',
             '-i','-',
-            '-c:v','libx264',
+            '-c:v', 'libx264',
             '-preset', 'ultrafast',
             '-tune', 'zerolatency',
-            '-c:a', 'aac', '-ar', '44100', '-b:a', '44k',
+            '-max_muxing_queue_size', '1000',
             '-bufsize', '5000',
-            '-r','25',
-            '-f','flv',
+            '-r', 25,
+            '-g', 50,
+            '-keyint_min', 50,
+            '-x264opts', 'keyint=50', '-crf', '25', '-pix_fmt', 'yuv420p',
+            '-profile:v', 'baseline', '-level', '3',
+            '-c:a', 'aac', '-b:a','44k', '-ar', 44100,
+            '-f', 'flv',
             rtmpUrl,
         ]);
 
